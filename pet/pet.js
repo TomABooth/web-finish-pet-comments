@@ -88,6 +88,10 @@ function displayError() {
 }
 
 function displayPet() {
+    petName.textContent = pet.name;
+    petBio.textContent = pet.bio;
+    petImage.src = pet.image_url;
+    petImage.alt = `${pet.name} image`;
     // > Part B: display the pet info
 }
 
@@ -95,6 +99,8 @@ function displayComments() {
     commentList.innerHTML = '';
 
     for (const comment of pet.comments) {
+        const commentEl = renderComment(comment);
+        commentList.append(commentEl);
         // > Part C: render the comments
     }
 }
