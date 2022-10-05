@@ -1,6 +1,8 @@
 /* Imports */
 // this will check if we have a user and set signout link if it exists
 import '../auth/user.js';
+import {getPet} from '../fetch-utils.js'
+
 // > Part B: import pet fetch
 // > Part C: import create comment
 import { renderComment } from '../render-utils.js';
@@ -19,6 +21,21 @@ let pet = null;
 
 /* Events */
 window.addEventListener('load', async () => {
+    const searchParams = new URLSearchParams(location.search);
+    const id - searchParams.get('id');
+    const response = await getPet(id);
+    error = response.error;
+    pet = response.data;
+
+    if (error) {
+        displayError();
+    }
+
+    if (!pet) {
+        location.assign('/');
+    } else {
+        displayPet();
+    }
     // > Part B:
     //   - get the id from the search params
     //   - if no id, redirect to list (home) page
