@@ -1,7 +1,7 @@
 /* Imports */
 // this will check if we have a user and set signout link if it exists
 import '../auth/user.js';
-import {getPet} from '../fetch-utils.js'
+import { createComment, getPet } from '../fetch-utils.js';
 
 // > Part B: import pet fetch
 // > Part C: import create comment
@@ -22,7 +22,7 @@ let pet = null;
 /* Events */
 window.addEventListener('load', async () => {
     const searchParams = new URLSearchParams(location.search);
-    const id - searchParams.get('id');
+    const id = searchParams.get('id');
     const response = await getPet(id);
     error = response.error;
     pet = response.data;
@@ -35,6 +35,7 @@ window.addEventListener('load', async () => {
         location.assign('/');
     } else {
         displayPet();
+        displayComments();
     }
     // > Part B:
     //   - get the id from the search params
@@ -48,6 +49,23 @@ window.addEventListener('load', async () => {
 
 addCommentForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const formData = new FormData(addCommentForm);
+    const commentInsert = {
+        pet_id: pet.id,
+        text: formData.get('text'),
+    };
+
+    const response = await createComment(commentInsert);
+    error = response.error;
+    const comment = response.data;
+
+    if (error) {
+        displayError();
+    } else {
+        addCommentForm.reset();
+        pet.comments.unshift(comment);
+        displayComments();
+    }
 
     // > Part C:
     //    - create an comment insert object from formdata and the id of the pet
