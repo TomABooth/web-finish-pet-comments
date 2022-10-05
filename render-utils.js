@@ -1,6 +1,9 @@
 export function renderPet(pet) {
     const li = document.createElement('li');
 
+    const a = document.createElement('a');
+    a.href = `/pet/?id=${pet.id}`;
+
     // Part A: add an anchor link tag
     //      - set the link to be like `/pet/?id=34`, but use the actual pet id
     //      - adjust the content to be in the anchor link,
